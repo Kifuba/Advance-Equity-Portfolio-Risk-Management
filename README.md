@@ -17,17 +17,16 @@ The project is implemented using a modular architecture, where each component is
 ---
 
 ## What This Project Does
-The project includes:
+The platform is built as a modular market risk analytics pipeline covering:
 
+- Financial market data collection
+- Data validation and preprocessing
+- Simple and logarithmic return generation
+- Portfolio construction
 - Historical Simulation VaR
-- Expected Shortfall (ES)
-- EWMA Volatility Scaling
-- GARCH(1,1)
-- GJR-GARCH
-- VaR Backtesting
-- Model Comparison
-- Stress Testing
-- Interactive Dashboard
+- EWMA / GARCH / GJR-GARCH volatility scaling
+- VaR backtesting (Kupiec, Christoffersen, Basel Traffic Light)
+- Stress testing
 
 
 ---
@@ -186,16 +185,32 @@ The **Advance Equity Portfolio Risk Management** platform follows a modular end-
 
 ### Phase 1 – Data Collection
 
-Collects market data required for portfolio risk analysis, including equity prices, benchmark data, portfolio weights, and optional market information.
+Phase 1 downloads daily market data from Yahoo Finance, validates the downloaded datasets, computes both simple and logarithmic returns, and stores all outputs required by the subsequent phases of the project.
+
+The module performs the following tasks:
+
+- Download adjusted closing prices for all portfolio assets
+- Download S&P 500 benchmark prices
+- Download the 13-week Treasury Bill yield (optional)
+- Retrieve company sector and industry information (optional)
+- Validate downloaded datasets
+- Calculate daily simple returns
+- Calculate daily logarithmic returns
+- Generate portfolio weights
+- Save all datasets for the remaining phases
 
 **Main outputs**
+| File                                   | Description                             |
+| -------------------------------------- | --------------------------------------- |
+| `adjusted_close_prices.parquet`        | Daily adjusted closing prices           |
+| `simple_returns.parquet`               | Daily simple returns                    |
+| `log_returns.parquet`                  | Daily logarithmic returns               |
+| `portfolio_weights.csv`                | Portfolio allocation weights            |
+| `benchmark_prices.parquet`             | Daily S&P 500 prices                    |
+| `benchmark_returns.parquet`            | Daily S&P 500 returns                   |
+| `sector_information.csv` *(optional)*  | Company sector and industry information |
+| `risk_free_rates.parquet` *(optional)* | Daily risk-free rates                   |
 
-- Adjusted Close Prices
-- Daily Returns
-- Portfolio Weights
-- Benchmark Prices
-- Risk-Free Rate (optional)
-- Sector Information (optional)
 
 ---
 
